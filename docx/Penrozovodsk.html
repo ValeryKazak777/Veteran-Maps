@@ -1,0 +1,130 @@
+<!DOCTYPE html>    
+<html>
+<head>
+	<title> Sariki-ptz </title>
+	<meta charset="UTF-8">
+	<script src="./bin/leaflet.js"></script>
+	<link rel="stylesheet" href="./bin/leaflet.css">
+	<style>
+		h1.tt1 {color : #0000FF; text-align: center; size="3"}
+		#mymap {height: 550px}
+		body {background-color:#D3D3D3 }
+	form * {
+		display: block;
+		margin: 10px;
+		}
+		 body {
+            background-color: #D3D3D3;
+            margin: 0;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        #data-dialog {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            border: 2px solid #000;
+            background-color: #fff;
+            z-index: 1000;
+        }
+	</style>
+	
+</head>
+<body>
+	<form class="options" method="dialog" align="left">
+	<button class="button button--dark" value="debug" align="left">
+    количество вывезенных товаров покупателем 
+	</button>
+	 <button class="button button--light" value="reproduction" align="right">
+	Доставленно фирмой
+ 	</button>
+	</form>
+	
+	<h1 class="tt1"> <p><img src="2.png""width="120" height="90"align="left" > <font color="Purple" size="5" align="center" style="font-family:Verdana;">
+	</br> Чуть больше чем шарики <font color="red" size="3" align="right" style="font-family:Verdana;"> (Кличество самовывезенного товара: )</p></h1>
+	<div id="mymap"></div>
+	<script src = "./data/cities_pollution.js"></script>
+	<script>
+		var OSMmap = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png' , {});  
+		var GS = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']});
+		var OSMmapBWS = L.tileLayer('https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png',{});
+		var GSm = L.tileLayer('https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png' , {});
+		
+		var baseLayers = {
+			"серая карта": OSMmap,
+			"гугл карта": GS,
+			"транспорт": OSMmapBWS,
+			"Пассажирский транспорт": GSm
+			};
+		var map = L.map('mymap', {
+			center: [61.785021, 34.346878],
+			zoom: 13,
+			layers: [OSMmap]
+			});
+		var myIcon = L.icon({
+			iconUrl: "./data/icons/violet-icon.png"
+			});	
+			
+		L.control.layers(baseLayers).addTo(map);
+		L.marker([61.787875, 34.347435], {icon: myIcon}).addTo(map)
+		.bindPopup('Квартира7');
+		L.marker([61.791624, 34.364456], {icon: myIcon}).addTo(map)
+		.bindPopup('ТЦ Макси Thomas Münz');
+		L.marker([61.812729, 34.265877], {icon: myIcon}).addTo(map)
+		.bindPopup('Квартира7');
+		L.marker([61.811207, 34.266156], {icon: myIcon}).addTo(map)
+		.bindPopup('Квартира 89');
+		L.marker([61.781516, 34.350049], {icon: myIcon}).addTo(map)
+		.bindPopup('ТЦ "Кей" боулинг "На луне"');
+	
+	const sheetId = '14E_miCQihpUa55MdNzhGSHwGSxUH_Yd3CW2eAZE2Ez4';
+        const apiKey = 'AIzaSyD7SEOOkWgcN5Fk_GZCnHU47v_WB6EMIn8';
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Лист1!A1?key=${apiKey}`;
+
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				const dialog = document.getElementById('data-dialog');
+				if (data.values && data.values.length > 0 && data.values[0].length > 0) {
+					dialog.innerHTML = `Количество самовывезенных товаров: ${data.values[0][0]}`;
+				} else {
+					dialog.innerHTML = 'Нет данных';
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				const dialog = document.getElementById('data-dialog');
+				dialog.innerHTML = 'Ошибка загрузки данных';
+			});
+	
+	</script>
+	
+	<script>
+
+	<dialog id="my-dialog">
+	<button id="show-dialog-btn">Приём заказов</button>
+	<form onsubmit="download(this['С:\Users\user\Desktop\Карелия\222.txt'].value, this['text'].value)">
+    <label for="text">Что Вам необходимо:</label>
+    <input type="text" id="text" name="text" action="С:\Users\user\Desktop\Карелия\222.txt" required></br>
+	<label for="text">Адрес доставки:</label>
+    <input type="text" id="text" name="text1" action="С:\Users\user\Desktop\Карелия\222.txt" required>
+    <button type="submit">Принять</button>
+		
+	</form>
+	<button id="close-dialog-btn">Закрыть</button>
+		
+	</dialog>
+	
+	</script>
+	
+	
+	
+	
+
+
+
+</head>
+</html>

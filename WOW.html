@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Veterans</title>
+	<meta charset="UTF-8">
+	<script src="./bin/leaflet.js"></script>
+	<link rel="stylesheet" href="./bin/leaflet.css">
+	<style>
+		h1.tt1 {color : #8B0000; text-align: center}
+		#mymap {height: 530px}
+		body {background-color: #87CEFA}
+	</style>
+</head>
+<body>
+	<h1 class="tt1"> <p> Герои Великой Отечественной войны </p></h1>
+	<div id="mymap"></div>
+	<script src = "./data/cities_pollution.js"></script>
+	<script>
+		var OSMmap = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png' , {});  
+		var GS = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']});
+		var OSMmapBWS = L.tileLayer('https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png',{});
+		var GSm = L.tileLayer('https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png' , {});
+		
+		var baseLayers = {
+			"серая карта": OSMmap,
+			"гугл карта": GS,
+			"транспорт": OSMmapBWS,
+			"Пассажирский транспорт": GSm
+			};
+		var map = L.map('mymap', {
+			center: [47.307438, 70.815981],
+			zoom: 5,
+			layers: [OSMmap]
+			});
+		
+				
+					
+		var myIcon = L.icon({
+			iconUrl: "./data/icons/1.jpg"
+			});
+		var myIconLG = L.icon({
+			iconUrl: "./data/icons/2.jpg"
+			});
+		var myIconO = L.icon({
+			iconUrl: "./data/icons/3.jpg"
+			});
+		var myIconR = L.icon({
+			iconUrl: "./data/icons/4.jpg"
+			});
+		var myIconCh = L.icon({
+			iconUrl: "./data/icons/5.jpg"
+			});	
+		var myIconUPS = L.icon({
+			iconUrl: "./data/icons/6.jpg"
+			});
+		var myIconV = L.icon({
+			iconUrl: "./data/icons/7.jpg"
+			});
+		var myIconVP = L.icon({
+			iconUrl: "./data/icons/8.jpg"
+			});
+		var myIconK = L.icon({
+			iconUrl: "./data/icons/9.jpg"
+			});
+		var myIconN = L.icon({
+			iconUrl: "./data/icons/10.jpg"
+			});
+		var myIconD = L.icon({
+			iconUrl: "./data/icons/11.jpg"
+			});
+		var myIconA = L.icon({
+			iconUrl: "./data/icons/12.jpg"
+			});
+		var myIconPro = L.icon({
+			iconUrl: "./data/icons/13.jpg"
+			});
+		var myIconBr = L.icon({
+			iconUrl: "./data/icons/14.jpg"
+			});
+		var myIconB = L.icon({
+			iconUrl: "./data/icons/15.jpg"
+			});
+		var myIconS = L.icon({
+			iconUrl: "./data/icons/16.jpg"
+			});
+		var myIconLi = L.icon({
+			iconUrl: "./data/icons/17.jpg"
+			});
+		var myIconPs = L.icon({
+			iconUrl: "./data/icons/18.jpg"
+			});
+		var myIconCL = L.icon({
+			iconUrl: "./data/icons/19.jpg"
+			});
+			
+		L.control.layers(baseLayers).addTo(map);
+			L.marker([53.285152, 69.375533], {icon: myIcon}).addTo(map)
+			.bindPopup('<br/><a href="https://en.wikipedia.org/wiki/Talgat_Bigeldinov">Талгат Бегельдинов</a>');
+			L.marker([43.588846, 75.463806], {icon: myIconLG}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Кенжебаев,_Туле_Таскентбайулы">Туле Таскентбайулы Кенжебаев</a>');
+			L.marker([50.485292, 64.256045], {icon: myIconO}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Кошкарбаев,_Рахимжан_Кошкарбаевич">Рахимжан Кошкарбаев</a>');
+			L.marker([49.807760, 73.088504], {icon: myIconR}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Абдиров,_Нуркен_Абдирович">Нуркен Абдирович</a>');
+			L.marker([43.302026, 68.268982], {icon: myIconCh}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Мамутов,_Косан">Косан Мамутов</a>');
+			L.marker([40.509489, 68.769089], {icon: myIconUPS}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Заглавная_страница">Бауржан Момышулы</a>');
+			L.marker([42.441248, 77.267044], {icon: myIconV}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Касым,_Алибек_Бекбайулы">Аликбай Косаев</a>');
+			L.marker([44.842544, 65.502563], {icon: myIconVP}).addTo(map)
+			.bindPopup('<br/><a href="https://poisk.re/awards/21118727">Исабеков Аждар</a>');
+			L.marker([50.747297, 78.257156], {icon: myIconK}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Ибраев,_Айткеш_Абаевич">Айткеш Абаевич</a>');
+			L.marker([50.023094, 80.485116], {icon: myIconN}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Доспанова,_Хиуаз_Каировна">Хиуаз Доспанова</a>');
+			L.marker([48.680520, 47.983250], {icon: myIconD}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Хусаинов,_Ахмедиар_Дауленович">Ахмедияр Хусаинов</a>');
+			L.marker([49.694524, 75.584895], {icon: myIconA}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Мамраев,_Мартбек">Мартбек Мамраев</a>');
+			L.marker([46.347616, 48.030175], {icon: myIconPro}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Мусаев,_Мукат_Усагалиевич">Мукат Усагалиевич Мусаев</a>');
+			L.marker([47.106799, 51.916874], {icon: myIconBr}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Нсанбаев,_Буран">Нсанбаев Буран</a>');
+			L.marker([50.300376, 57.154560], {icon: myIconB}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Молдагулова,_Алия_Нурмухамбетовна">Алия Молдагулова</a>');
+			L.marker([51.204030, 51.370528], {icon: myIconS}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Маметова,_Маншук_Жиенгалиевна">Маншук Маметова</a>');
+			L.marker([48.826963, 81.696229], {icon: myIconLi}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Кайсенов,_Касым">Касым Кайсенов</a>');
+	        L.marker([45.398587, 79.503265], {icon: myIconPs}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Есебулатов,_Нурсутбай">Нурсутбай Есебулатов</a>');
+			 L.marker([48.882601, 50.110695], {icon: myIconCL}).addTo(map)
+			.bindPopup('<br/><a href="https://ru.wikipedia.org/wiki/Жаксыгулов,_Садык_Шакелович">Жаксыгулов Садык Шакелевич</a>');
+		
+	</script>
+		<center><font color="DarkRed" size="6" style="font-family:Mistral;"><p>Работу выполнила Орозалина Айсулу и Маржан Бахытжан "Дворец школьников" г.Алматы</p></font></center>		
+
+</body>
+</html>

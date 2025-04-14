@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Veterans</title>
+  <meta charset="UTF-8">
+  <script src="./bin/leaflet.js"></script>
+  <link rel="stylesheet" href="./bin/leaflet.css">
+  <style>
+    h1.tt1 { color: #8B0000; text-align: center; }
+    #mymap { height: 530px; }
+    body { background-color: #87CEFA; }
+    #regionFilter { display: block; margin: 10px auto; font-size: 16px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h1 class="tt1">Герои Великой Отечественной войны</h1>
+
+  <select id="regionFilter">
+    <option value="all">Все регионы</option>
+    <option value="Акмолинская">Акмолинская</option>
+    <option value="Алматинская">Алматинская</option>
+    <option value="Костанайская">Костанайская</option>
+    <option value="Павлодарская">Павлодарская</option>
+    <option value="Карагандинская">Карагандинская</option>
+    <option value="Южно-Казахстанская">Южно-Казахстанская</option>
+    <option value="Туркестанская">Туркестанская</option>
+    <option value="Восточно-Казахстанская">Восточно-Казахстанская</option>
+    <option value="Западно-Казахстанская">Западно-Казахстанская</option>
+    <option value="Актюбинская">Актюбинская</option>
+    <option value="Атырауская">Атырауская</option>
+    <option value="Мангыстауская">Мангыстауская</option>
+    <option value="Кызылординская">Кызылординская</option>
+	<option value="Жамбылская">Жамбылская</option>
+  </select>
+
+  <div id="mymap"></div>
+
+  <script>
+    var map = L.map('mymap', {
+      center: [47.307438, 70.815981],
+      zoom: 5
+    });
+
+    var OSMmap = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    var GS = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0','mt1','mt2','mt3']
+    });
+    var OSMmapBWS = L.tileLayer('https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png');
+    var GSm = L.tileLayer('https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png');
+
+    var baseLayers = {
+      "серая карта": OSMmap,
+      "гугл карта": GS,
+      "транспорт": OSMmapBWS,
+      "Пассажирский транспорт": GSm
+    };
+
+    var overlayMaps = {};
+
+    var layerControl = L.control.layers(baseLayers, overlayMaps).addTo(map);
+
+    fetch('./data/Kazaqstan.json')
+      .then(response => response.json())
+      .then(geojsonData => {
+        var GR = L.geoJSON(geojsonData, {
+          style: {
+            color: "#FF4500",
+            weight: 2,
+            fillOpacity: 0.1
+          },
+          onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+              layer.bindTooltip(feature.properties.name, {permanent: false, direction: 'center'});
+            }
+          }
+        }).addTo(map);
+        overlayMaps["Границы РК"] = GR;
+        layerControl.addOverlay(GR, "Границы РК");
+      });
+
+    function createIcon(n) {
+      return L.icon({ iconUrl: `./data/icons/${n}.jpg` });
+    }
+
+    const heroes = [
+      { coords: [53.285152, 69.375533], name: "Талгат Бегельдинов", region: "Акмолинская", icon: 1, link: "https://en.wikipedia.org/wiki/Talgat_Bigeldinov" },
+      { coords: [43.588846, 75.463806], name: "Туле Таскентбайулы Кенжебаев", region: "Алматинская", icon: 2, link: "https://ru.wikipedia.org/wiki/Кенжебаев,_Туле_Таскентбайулы" },
+      { coords: [50.485292, 64.256045], name: "Рахимжан Кошкарбаев", region: "Костанайская", icon: 3, link: "https://ru.wikipedia.org/wiki/Кошкарбаев,_Рахимжан_Кошкарбаевич" },
+      { coords: [44.842544, 65.502563], name: "Исабеков Аждар", region: "Павлодарская", icon: 8, link: "https://poisk.re/awards/21118727" },
+      { coords: [49.807760, 73.088504], name: "Нуркен Абдирович", region: "Карагандинская", icon: 4, link: "https://ru.wikipedia.org/wiki/Абдиров,_Нуркен_Абдирович" },
+      { coords: [43.302026, 68.268982], name: "Косан Мамутов", region: "Южно-Казахстанская", icon: 5, link: "https://ru.wikipedia.org/wiki/Мамутов,_Косан" },
+      { coords: [42.441248, 77.267044], name: "Аликбай Косаев", region: "Туркестанская", icon: 7, link: "https://ru.wikipedia.org/wiki/Касым,_Алибек_Бекбайулы" },
+      { coords: [50.747297, 78.257156], name: "Айткеш Абаевич", region: "Восточно-Казахстанская", icon: 9, link: "https://ru.wikipedia.org/wiki/Ибраев,_Айткеш_Абаевич" },
+      { coords: [47.106799, 51.916874], name: "Нсанбаев Буран", region: "Западно-Казахстанская", icon: 14, link: "https://ru.wikipedia.org/wiki/Нсанбаев,_Буран" },
+      { coords: [50.300376, 57.154560], name: "Алия Молдагулова", region: "Актюбинская", icon: 15, link: "https://ru.wikipedia.org/wiki/Молдагулова,_Алия_Нурмухамбетовна" },
+      { coords: [46.347616, 48.030175], name: "Мукат Мусаев", region: "Атырауская", icon: 13, link: "https://ru.wikipedia.org/wiki/Мусаев,_Мукат_Усагалиевич" },
+      { coords: [45.398587, 79.503265], name: "Нурсутбай Есебулатов", region: "Мангыстауская", icon: 18, link: "https://ru.wikipedia.org/wiki/Есебулатов,_Нурсутбай" },
+      { coords: [48.882601, 50.110695], name: "Жаксыгулов Садык Шакелевич", region: "Кызылординская", icon: 19, link: "https://ru.wikipedia.org/wiki/Жаксыгулов,_Садык_Шакелович" },
+	  { coords: [48.826963, 81.696229], name: "Касым Кайсенов", region: "Восточно-Казахстанская", icon: 17, link: "https://ru.wikipedia.org/wiki/Кайсенов,_Касым" },
+	  { coords: [51.204030, 51.370528], name: "Маншук Маметова", region: "Западно-Казахстанская", icon: 16, link: "https://ru.wikipedia.org/wiki/Маметова,_Маншук_Жиенгалиевна" },
+	  { coords: [49.694524, 75.584895], name: "Мартбек Мамраев", region: "Карагандинская", icon: 12, link: "https://ru.wikipedia.org/wiki/Мамраев,_Мартбек" },
+	  { coords: [40.509489, 68.769089], name: "Бауржан Момышулы", region: "Жамбылская", icon: 6, link: "https://ru.wikipedia.org/wiki/Момышулы,_Бауыржан" },
+	  { coords: [53.732541, 63.629952], name: "Хиуаз Доспанова", region: "Западно-Казахстанская", icon: 10, link: "https://ru.wikipedia.org/wiki/Доспанова,_Хиуаз_Каировна" },
+	  { coords: [52.712136, 59.562943], name: "Ахмедияр Хусаинов", region: "Западно-Казахстанская", icon: 11, link: "https://ru.wikipedia.org/wiki/Хусаинов,_Ахмедиар_Дауленович" }
+    ];
+
+    const markers = [];
+    heroes.forEach(hero => {
+      const marker = L.marker(hero.coords, { icon: createIcon(hero.icon) })
+        .bindPopup(`<a href="${hero.link}" target="_blank">${hero.name}</a>`)
+        .addTo(map);
+      marker.region = hero.region;
+      markers.push(marker);
+    });
+
+    document.getElementById("regionFilter").addEventListener("change", function() {
+      const selectedRegion = this.value;
+      markers.forEach(marker => {
+        if (selectedRegion === "all" || marker.region === selectedRegion) {
+          map.addLayer(marker);
+        } else {
+          map.removeLayer(marker);
+        }
+      });
+    });
+  </script>
+
+  <center><font color="DarkRed" size="6" style="font-family:Mistral;">
+    <p>Работу выполнила Орозалина Айсулу и Маржан Бахытжан "Дворец школьников" г.Алматы</p>
+  </font></center>
+</body>
+</html>
